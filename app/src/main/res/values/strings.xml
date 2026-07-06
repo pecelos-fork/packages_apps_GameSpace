@@ -111,6 +111,10 @@
     <string name="custom_seekbar_default_value_is_set">Default value is set</string>
     <string name="gamespace_menu_opacity_title">Overlay menu opacity level</string>
     
+    <!-- Auto DND -->
+    <string name="auto_dnd_title">Auto Do Not Disturb</string>
+    <string name="auto_dnd_summary">Automatically enable DND while in-game and restore when done</string>
+
     <!-- Bypass charging -->
     <string name="bypass_charge_enabled_summary">Bypass charging</string>
     <string name="bypass_charge_enabled_title">Enable bypass charging while playing games</string>

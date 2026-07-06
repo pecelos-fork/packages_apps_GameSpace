@@ -19,6 +19,7 @@ package io.chaldeaprjkt.gamespace.gamebar
 import android.annotation.SuppressLint
 import android.app.ActivityTaskManager
 import android.app.GameManager
+import android.app.NotificationManager
 import android.app.Service
 import android.content.ComponentName
 import android.content.Context
@@ -84,6 +85,9 @@ class SessionService : Hilt_SessionService() {
     private var isBarConnected = false
     private var commandIntent: Intent? = null
 
+    private var dndEnabledByUs = false
+    private var previousDndFilter = NotificationManager.INTERRUPTION_FILTER_ALL
+
     @SuppressLint("WrongConstant")
     override fun onCreate() {
         super.onCreate()
@@ -139,6 +143,7 @@ class SessionService : Hilt_SessionService() {
             unbindService(gameBarConnection)
         }
 
+        restoreAutoDnd()
         session.unregister()
         gameModeUtils.unbind()
         screenUtils.unbind()
@@ -146,6 +151,25 @@ class SessionService : Hilt_SessionService() {
 
         isRunning = false
         super.onDestroy()
+    }
+
+    private fun applyAutoDnd() {
+        if (!appSettings.autoDnd) return
+        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val currentFilter = nm.currentInterruptionFilter
+        if (currentFilter == NotificationManager.INTERRUPTION_FILTER_ALL ||
+            currentFilter == NotificationManager.INTERRUPTION_FILTER_UNKNOWN) {
+            previousDndFilter = currentFilter
+            nm.setInterruptionFilter(NotificationManager.INTERRUPTION_FILTER_PRIORITY)
+            dndEnabledByUs = true
+        }
+    }
+
+    private fun restoreAutoDnd() {
+        if (!dndEnabledByUs) return
+        dndEnabledByUs = false
+        val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        nm.setInterruptionFilter(previousDndFilter)
     }
 
     private fun onGameBarReady() {
@@ -166,6 +190,7 @@ class SessionService : Hilt_SessionService() {
                 session.unregister()
                 session.register(app)
                 applyGameModeConfig(app)
+                applyAutoDnd()
                 gameBar.onGameStart()
                 screenUtils.stayAwake = appSettings.stayAwake
                 screenUtils.lockGesture = appSettings.lockGesture

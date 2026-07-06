@@ -50,6 +50,12 @@
             android:summary="%s"
             android:title="@string/ringer_mode_title" />
 
+        <androidx.preference.SwitchPreferenceCompat
+            android:defaultValue="false"
+            android:key="gamespace_auto_dnd"
+            android:summary="@string/auto_dnd_summary"
+            android:title="@string/auto_dnd_title" />
+
         <com.android.settings.custom.preference.SystemSettingSwitchPreference
             android:key="gamespace_suppress_fullscreen_intent"
             android:summary="@string/suppress_fullscreen_intent_summary"
