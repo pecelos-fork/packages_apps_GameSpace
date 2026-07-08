@@ -39,4 +39,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
+    <io.chaldeaprjkt.gamespace.widget.tiles.DndTile
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_columnSpan="2"
+        android:layout_gravity="fill_horizontal" />
+
 </GridLayout>
