@@ -114,7 +114,6 @@
     <!-- Auto DND -->
     <string name="auto_dnd_title">Auto Do Not Disturb</string>
     <string name="auto_dnd_summary">Automatically enable DND while in-game and restore when done</string>
-    <string name="dnd_title">Do Not Disturb</string>
 
     <!-- Bypass charging -->
     <string name="bypass_charge_enabled_summary">Bypass charging</string>
